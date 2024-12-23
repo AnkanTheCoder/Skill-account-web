@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Login</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        .container {
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Login Container Style */
+        #loginContainer {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* Sign-Up Container Style - Different from Login */
+        #signupContainer {
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder,
+        input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Login Button Style */
+        #loginContainer button {
+            background-color: #ff416c;
+            background-image: linear-gradient(315deg, #ff416c 0%, #ff4b2b 74%);
+        }
+
+        /* Sign-Up Button Style - Different from Login */
+        #signupContainer button {
+            background-color: #32de84;
+            background-image: linear-gradient(315deg, #32de84 0%, #08aeea 74%);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #loginContainer button:hover {
+            background-image: linear-gradient(315deg, #ff4b2b 0%, #ff416c 74%);
+        }
+
+        #signupContainer button:hover {
+            background-image: linear-gradient(315deg, #08aeea 0%, #32de84 74%);
+        }
+
+        /* Dashboard Button Styles - Vibrant and Light */
+        #dashboardContainer button {
+            background-color: #f6d365;
+            background-image: linear-gradient(315deg, #f6d365 0%, #fda085 74%);
+        }
+
+        #dashboardContainer button:hover {
+            background-image: linear-gradient(315deg, #fda085 0%, #f6d365 74%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .link a {
+            color: #ff416c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        #signupContainer .link a {
+            color: #32de84;
+        }
+
+        .container-hidden {
+            display: none;
+        }
+
+        .container-active {
+            display: block;
+        }
+
+        #accountDetails {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        #oneTimeCode {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #ff4b2b;
+        }
+
+        .message {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #f8d7da;
+            background-color: #721c24;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container container-active" id="loginContainer">
+        <h2>Log In</h2>
+        <input type="text" id="loginUsername" placeholder="Username" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button onclick="logIn()">Log In</button>
+        <p class="link">Don't have an account? <a href="javascript:showSignup()">Sign Up</a></p>
+        <p id="loginMessage" class="message"></p>
+    </div>
+
+    <div class="container container-hidden" id="signupContainer">
+        <h2>Sign Up</h2>
+        <input type="text" id="signupUsername" placeholder="Username" required>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button onclick="signUp()">Sign Up</button>
+        <p class="link">Already have an account? <a href="javascript:showLogin()">Log In</a></p>
+        <p id="signupMessage" class="message"></p>
+    </div>
+
+    <div class="container container-hidden" id="dashboardContainer">
+        <h2>Welcome, <span id="welcomeUser"></span>!</h2>
+        <button onclick="logOut()">Log Out</button>
+        <button onclick="showAccountDetails()">View Account Details</button>
+        <button onclick="generateOneTimeCode()">Generate One-Time Code</button>
+        <button onclick="showDeleteAccount()">Delete Account</button>
+        <p id="dashboardMessage" class="message"></p>
+        <div id="oneTimeCode" class="container-hidden">
+            <p>Your One-Time Code: <span id="generatedCode"></span></p>
+        </div>
+    </div>
+
+    <div class="container container-hidden" id="deleteContainer">
+        <h2>Delete Account</h2>
+        <input type="text" id="deleteUsername" placeholder="Username" required>
+        <input type="password" id="deletePassword" placeholder="Password" required>
+        <button onclick="deleteAccount()">Delete Account</button>
+        <p class="link"><a href="javascript:showDashboard()">Back to Dashboard</a></p>
+        <p id="deleteMessage" class="message"></p>
+    </div>
+
+    <div class="container container-hidden" id="accountDetails">
+        <h3>Account Details</h3>
+        <p><strong>Username:</strong> <span id="accountUsername"></span></p>
+        <p><strong>Email:</strong> <span id="accountEmail"></span></p>
+        <h4>Generated Codes:</h4>
+        <ul id="codeList"></ul>
+    </div>
+
+    <script>
+        let codeGenerated = false;
+
+        // Function to check login status when the page is loaded
+        window.onload = function () {
+            let loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                showDashboard(loggedInUser);
+            } else {
+                showLogin();
+            }
+        };
+
+        function signUp() {
+            let username = document.getElementById('signupUsername').value;
+            let email = document.getElementById('signupEmail').value;
+            let password = document.getElementById('signupPassword').value;
+            let signupMessage = document.getElementById('signupMessage');
+
+            signupMessage.style.display = 'none';
+
+            if (localStorage.getItem(username)) {
+                signupMessage.textContent = 'Username already exists. Please choose another one.';
+                signupMessage.style.display = 'block';
+            } else {
+                let user = {
+                    email: email,
+                    password: password,
+                    codes: []
+                };
+                localStorage.setItem(username, JSON.stringify(user));
+                signupMessage.textContent = 'Account created successfully! Please log in.';
+                signupMessage.style.display = 'block';
+                showLogin();
+            }
+        }
+
+        function logIn() {
+            let username = document.getElementById('loginUsername').value;
+            let password = document.getElementById('loginPassword').value;
+            let loginMessage = document.getElementById('loginMessage');
+
+            loginMessage.style.display = 'none';
+
+            if (username.toLowerCase() === 'deleteaccount' && password.toLowerCase() === 'yes') {
+                let deleteConfirmation = confirm("Are you sure you want to delete all accounts?");
+                if (deleteConfirmation) {
+                    localStorage.clear();
+                    loginMessage.textContent = "All accounts have been deleted.";
+                    loginMessage.style.display = 'block';
+                }
+                return;
+            }
+
+            let storedUser = JSON.parse(localStorage.getItem(username));
+
+            if (storedUser && storedUser.password === password) {
+                localStorage.setItem('loggedInUser', username);
+                showDashboard(username);
+            } else {
+                loginMessage.textContent = 'Invalid login credentials.';
+                loginMessage.style.display = 'block';
+            }
+        }
+
+        function showDashboard(username) {
+            document.getElementById('welcomeUser').textContent = username;
+            document.getElementById('loginContainer').classList.replace('container-active', 'container-hidden');
+            document.getElementById('signupContainer').classList.replace('container-active', 'container-hidden');
+            document.getElementById('dashboardContainer').classList.replace('container-hidden', 'container-active');
+            document.getElementById('deleteContainer').classList.replace('container-active', 'container-hidden');
+        }
+
+        function logOut() {
+            localStorage.removeItem('loggedInUser');
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginContainer').classList.replace('container-hidden', 'container-active');
+            document.getElementById('signupContainer').classList.replace('container-active', 'container-hidden');
+            document.getElementById('dashboardContainer').classList.replace('container-active', 'container-hidden');
+            document.getElementById('deleteContainer').classList.replace('container-active', 'container-hidden');
+            codeGenerated = false; // Reset the code generation flag when logging out
+        }
+
+        function showSignup() {
+            document.getElementById('signupContainer').classList.replace('container-hidden', 'container-active');
+            document.getElementById('loginContainer').classList.replace('container-active', 'container-hidden');
+            document.getElementById('dashboardContainer').classList.replace('container-active', 'container-hidden');
+            document.getElementById('deleteContainer').classList.replace('container-active', 'container-hidden');
+        }
+
+        function showDeleteAccount() {
+            document.getElementById('deleteContainer').classList.replace('container-hidden', 'container-active');
+            document.getElementById('dashboardContainer').classList.replace('container-active', 'container-hidden');
+        }
+
+        function showAccountDetails() {
+            let loggedInUser = localStorage.getItem('loggedInUser');
+            let storedUser = JSON.parse(localStorage.getItem(loggedInUser));
+
+            if (storedUser) {
+                document.getElementById('accountUsername').textContent = loggedInUser;
+                document.getElementById('accountEmail').textContent = storedUser.email;
+
+                let codeList = document.getElementById('codeList');
+                codeList.innerHTML = '';
+
+                storedUser.codes.slice().reverse().forEach(code => {
+                    let li = document.createElement('li');
+                    li.textContent = code;
+                    codeList.appendChild(li);
+                });
+
+                document.getElementById('accountDetails').classList.remove('container-hidden');
+            }
+        }
+
+        function deleteAccount() {
+            let username = document.getElementById('deleteUsername').value;
+            let password = document.getElementById('deletePassword').value;
+            let deleteMessage = document.getElementById('deleteMessage');
+
+            deleteMessage.style.display = 'none';
+
+            let storedUser = JSON.parse(localStorage.getItem(username));
+
+            if (storedUser && storedUser.password === password) {
+                localStorage.removeItem(username);
+                deleteMessage.textContent = 'Account deleted successfully.';
+                deleteMessage.style.display = 'block';
+                logOut();
+            } else {
+                deleteMessage.textContent = 'Invalid credentials. Could not delete the account.';
+                deleteMessage.style.display = 'block';
+            }
+        }
+
+        function generateOneTimeCode() {
+            let loggedInUser = localStorage.getItem('loggedInUser');
+            let storedUser = JSON.parse(localStorage.getItem(loggedInUser));
+            let dashboardMessage = document.getElementById('dashboardMessage');
+
+            dashboardMessage.style.display = 'none';
+
+            if (codeGenerated) {
+                dashboardMessage.textContent = 'You can\'t generate a one-time code again. Please refresh the page and then try it.';
+                dashboardMessage.style.display = 'block';
+                return;
+            }
+
+            let code = Math.random().toString(36).substring(2, 10).toUpperCase();
+            storedUser.codes.push(code);
+            localStorage.setItem(loggedInUser, JSON.stringify(storedUser));
+
+            document.getElementById('generatedCode').textContent = code;
+            document.getElementById('oneTimeCode').classList.remove('container-hidden');
+            codeGenerated = true; // Set the flag to true after generating the code
+        }
+    </script>
+</body>
+
+</html>
